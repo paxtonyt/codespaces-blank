@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Head content -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="login-container">
+        <!-- Login form content -->
+        <form id="login-form" method="post">
+            <div class="input-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <div class="input-group">
+                <button type="submit">Login</button>
+            </div>
+
+            <div class="input-group" style="margin-top: 10px;">
+                <a href="register.html" class="register-btn">Register</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Handle login form submission
+        document.getElementById("login-form").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const loginData = {
+                username: formData.get("username"),
+                password: formData.get("password"),
+            };
+
+            // Send a POST request to the login endpoint on the server
+            fetch("/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(loginData)
+            })
+            .then(response => response.text())
+            .then(data => {
+                // Display the response from the server
+                alert(data);
+                // Redirect to home page after successful login
+                window.location.href = "/home";
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        });
+    </script>
+</body>
+
+</html>

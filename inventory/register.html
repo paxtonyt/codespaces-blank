@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Head content -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="login-container">
+        <!-- Registration form content -->
+        <form id="register-form" method="post">
+            <div class="input-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <div class="input-group">
+                <label for="confirm-password">Confirm Password:</label>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+            </div>
+
+            <div class="input-group">
+                <button type="submit">Register</button>
+            </div>
+
+            <div class="input-group" style="margin-top: 10px;">
+                <a href="login.html" class="register-btn">Already have an account? Login</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Handle registration form submission
+        document.getElementById("register-form").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const registerData = {
+                username: formData.get("username"),
+                password: formData.get("password"),
+                "confirm-password": formData.get("confirm-password")
+            };
+
+            // Send a POST request to the register endpoint on the server
+            fetch("/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(registerData)
+            })
+            .then(response => response.text())
+            .then(data => {
+                // Display the response from the server
+                alert(data);
+                // Redirect to login page after successful registration
+                window.location.href = "/login";
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        });
+    </script>
+</body>
+
+</html>
